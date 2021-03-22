@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const State = require("../model/State");
 
 router.post("/", async (req, res) => {
     if (req.body.state == 1) {
@@ -28,6 +29,12 @@ router.post("/", async (req, res) => {
             }
         );
     }
+});
+
+router.get("/logs", async (req, res) => {
+    const mydata = await State.find();
+    console.log(mydata);
+    return res.json(mydata);
 });
 
 module.exports = router;
