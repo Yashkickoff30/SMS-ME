@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+    <link rel="stylesheet" href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    
+    <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
+    
+    <link rel = "stylesheet" href = "/css/style.css"></link>
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-deferred@1"></script>
+</div>
+</head>
+<body>
+  <div id="bg">
+    <header>
+        <div class="bg-dark py-2">
+            <div class="container">
+                <h2>SMS ME</h2>
+            </div>
+        </div>
+       
+        </header>
+        
+        <nav>
+          
+          <div class="rightSection">
+          <a class="selected links" href="#">Dashboard</a>
+          <a class="links" href="#">Logs</a>
+          <a class="links" href="#">Data Analytics</a>
+          <a class="links" href="#">Blockchain</a>
+          
+          </div>
+          <div class="leftSection">
+          <a class="links" href="#">Log Out</a>
+          </div>
+        </nav>
+
+        <div id="modal0"  tabindex="-1" role="dialog">
+          <div class="modal-dialog mw-100 w-50 " role="document">
+            <div class="modal-content modal-body1 no-border">
+              
+              <div class="modal-body ">
+                
+               <h3><b><center>State Monitoring Solution for Medical Equipment</center></b> </h3>
+               <h5><i><center>We visualize numerous complicated datas thereby your work becomes much easier...</center></i></h5>
+              </div>
+            
+            </div>
+          </div>
+        </div>
+
+        
+        <div id="modal" class="modal-lg" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content no-border">
+              
+              <div class="modal-body ">
+                
+                <canvas id="line-chart" width="1000" height="750"></canvas>
+                
+              </div>
+            
+            </div>
+          </div>
+        </div>
+  </div>
+  <div id="bg">
+        <div id="modal1" class="modal-lg" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content no-border">
+              
+              <div class="modal-body ">
+                
+                <canvas id="bar-chart" width="1000" height="750"></canvas>
+                
+              </div>
+            
+            </div>
+          </div>
+        </div>
+        <div id="modal0" tabindex="-1" role="dialog">
+          <div class="modal-dialog mw-100 w-50" role="document">
+            <div class="modal-content modal-body1 no-border">
+              
+              <div class="modal-body">
+                
+               <h3><b><center>The more safer your data is..</center></b> </h3>
+               <h5><i><center>Block chain mechanism enables high level of security, stable operation and access from anywhere</center></i></h5>
+              </div>
+            
+            </div>
+          </div>
+        </div>
+
+        
+      <div id="modal0" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content modal-body1 no-border">
+            
+            <div class="modal-body "> 
+        <img src="https://miro.medium.com/max/700/0*EBXqB5wJTWFeaT04.gif" alt="Nature" class="responsive" width="300" 
+        height="400">
+          </div>
+                
+        </div>
+      </div>
+    </div>
+           </div>
+ <script>
+   // Bar chart
+new Chart(document.getElementById("bar-chart"), {
+    type: 'bar',
+    data: {
+      labels: ["8-9 AM", "10-11 AM", "1-2 PM", "8-9 PM", "10-11PM"],
+      datasets: [
+        {
+          label: "Population (millions)",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: [23,45,17,70,37]
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      tooltips:{
+          enabled:false
+        },
+        plugins: {
+      deferred: {
+        xOffset: 150,   
+        yOffset: '50%', 
+        delay: 500    
+      }
+    }
+    }
+    
+});
+ </script>
+ 
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>
