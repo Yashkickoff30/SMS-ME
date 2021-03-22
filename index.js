@@ -1,9 +1,20 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require("path");
 require("dotenv").config();
 
+const webRouter = require("./routes/web");
+const apiRouter = require("./routes/api");
+
 const app = express();
+
 app.use(express.json());
+app.set("view engine", "ejs");
+app.set("views", "views");
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use("/", webRouter);
+app.use("/api", apiRouter);
 
 const mongoURI = process.env.MONGO_URI;
 mongoose.connect(
