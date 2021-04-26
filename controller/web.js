@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../model/User");
 const Device = require("../model/Device");
-const { response } = require("express");
 
 exports.getSignUp = (req, res) => {
     res.render("signup");
