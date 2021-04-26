@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
-
+// Todo: Decide the type of Ampere, Volt values!
 const stateSchema = new mongoose.Schema({
     id: {
         type: Number,
     },
-    deviceid: {
+    spokeid: {
         type: String,
         required: true,
     },
@@ -18,6 +18,15 @@ const stateSchema = new mongoose.Schema({
     },
     offtime: {
         type: String,
+    },
+    ampere: {
+        type: String,
+    },
+    volts: {
+        type: String,
+    },
+    isIdle: {
+        type: Boolean,
     },
     date: {
         type: String,

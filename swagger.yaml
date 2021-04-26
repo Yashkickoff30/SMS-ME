@@ -1,0 +1,276 @@
+swagger: "2.0"
+info:
+    description: "State Monitoring Application!"
+    version: "2.0.0"
+    title: "SMS ME"
+host: "localhost:3000"
+basePath: "/api"
+tags:
+    - name: "API"
+      description: "Everything you need to know about the SMS ME API."
+schemes:
+    - "http"
+    - "https"
+paths:
+    /:
+        post:
+            tags:
+                - "API"
+            summary: "To send state data of the medical equipment"
+            consumes:
+                - "application/json"
+            parameters:
+                - in: "body"
+                  name: "body"
+                  description: "Set state value as 1 for on-time and 0 for off-time"
+                  required: true
+                  schema:
+                      $ref: "#/definitions/payload"
+            responses:
+                "200":
+                    description: "State data recieved successfully"
+                "400":
+                    description: "Payload Error"
+                "500":
+                    description: "Server Error"
+
+    /deviceinfo:
+        post:
+            tags:
+                - "API"
+            summary: "To get information about a spoke"
+            produces:
+                - "application/json"
+            parameters:
+                - in: "body"
+                  name: "body"
+                  required: true
+                  schema:
+                      $ref: "#/definitions/device-info"
+            responses:
+                "200":
+                    description: "Spoke Information"
+                    schema:
+                        $ref: "#/definitions/spoke-response"
+                "400":
+                    description: "Payload Error"
+                "500":
+                    description: "Server Error"
+
+    /logs:
+        get:
+            tags:
+                - "API"
+            summary: "To get state information of all spokes"
+            produces:
+                - "application/json"
+            responses:
+                "200":
+                    description: "All Spoke information"
+                    schema:
+                        $ref: "#/definitions/all-spoke-response"
+
+    # /meddevice:
+    #     post:
+    #         tags:
+    #             - "WEB"
+    #         summary: "To add medical equipment information"
+    #         consumes:
+    #             - "application/json"
+    #         parameters:
+    #             - in: "body"
+    #               name: "body"
+    #               required: true
+    #               schema:
+    #                   $ref: "#/definitions/med-device"
+    #         responses:
+    #             "201":
+    #                 description: "Created!"
+    #             "400":
+    #                 description: "Payload Error"
+    #             "500":
+    #                 description: "Server Error"
+
+    # # /login:
+    #     post:
+    #         tags:
+    #             - "WEB"
+    #         summary: "For user login"
+    #         consumes:
+    #             - "application/json"
+    #         parameters:
+    #             - in: "body"
+    #               name: "body"
+    #               required: true
+    #               schema:
+    #                   $ref: "#/definitions/login"
+    #         responses:
+    #             "201":
+    #                 description: "Created!"
+    #             "400":
+    #                 description: "Payload Error"
+    #             "500":
+    #                 description: "Server Error"
+
+    # /signup:
+    #     post:
+    #         tags:
+    #             - "WEB"
+    #         summary: "For user signup"
+    #         consumes:
+    #             - "application/json"
+    #         parameters:
+    #             - in: "body"
+    #               name: "body"
+    #               required: true
+    #               schema:
+    #                   $ref: "#/definitions/signup"
+    #         responses:
+    #             "201":
+    #                 description: "Created!"
+    #             "400":
+    #                 description: "Payload Error"
+    #             "500":
+    #                 description: "Server Error"
+
+definitions:
+    payload:
+        type: "object"
+        properties:
+            state:
+                type: "integer"
+                example: 1
+            id:
+                type: "integer"
+                example: 1
+            spokeid:
+                type: "integer"
+                example: 1
+            hubid:
+                type: "integer"
+                example: 1
+            time:
+                type: "string"
+                example: "09:03:25"
+            date:
+                type: "string"
+                example: "25-04-2021"
+            day:
+                type: "string"
+                example: "Sunday"
+            ampere:
+                type: "string"
+                example: "10.9"
+            volt:
+                type: "string"
+                example: "12.4"
+
+    device-info:
+        type: "object"
+        properties:
+            spokeid:
+                type: "integer"
+                example: 1
+            hubid:
+                type: "integer"
+                example: 1
+
+    all-spoke-response:
+        type: "array"
+        items:
+            $ref: "#/definitions/spoke-response"
+
+    spoke-response:
+        type: "object"
+        properties:
+            id:
+                type: "integer"
+                example: 23987
+            spokeid:
+                type: "integer"
+                example: 1
+            hubid:
+                type: "integer"
+                example: 2
+            ontime:
+                type: "string"
+                example: "09:03:25"
+            offtime:
+                type: "string"
+                example: "10:00:00"
+            ampere:
+                type: "string"
+                example: "10.9"
+            volt:
+                type: "string"
+                example: "12.4"
+            isIdle:
+                type: "boolean"
+                example: "false"
+            date:
+                type: "string"
+                example: "25-04-2021"
+            day:
+                type: "string"
+                example: "Sunday"
+
+    login:
+        type: "object"
+        properties:
+            email:
+                type: "email"
+                example: "example@email.com"
+            password:
+                type: "password"
+                example: "******"
+
+    signup:
+        type: "object"
+        properties:
+            username:
+                type: "string"
+                example: "Username"
+            password:
+                type: "password"
+                example: "******"
+            email:
+                type: "email"
+                example: "example@email.com"
+
+    med-device:
+        type: "object"
+        properties:
+            spokeid:
+                type: "integer"
+                example: 1
+            hubid:
+                type: "integer"
+                example: 1
+            devicename:
+                type: "string"
+                example: "ECG equipment"
+            volt:
+                type: "string"
+                example: "30"
+            ampere:
+                type: "string"
+                example: "27.8"
+
+    daily-data:
+        type: "object"
+        properties:
+            spokeid:
+                type: "integer"
+                example: 1
+            ontime:
+                type: "string"
+                example: "09:03:25"
+            offtime:
+                type: "string"
+                examplpe: "09:09:58"
+            day:
+                type: "string"
+                example: "monday"
+            date:
+                type: "string"
+                example: "26-04-2021"
