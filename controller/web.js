@@ -27,7 +27,7 @@ exports.getAddDeviceForm = (req, res) => {
 };
 
 exports.postSignUp = async (req, res) => {
-    console.log(req.body.name + req.body.password + req.body.email);
+    // console.log(req.body.name + req.body.password + req.body.email);
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const newUser = new User({

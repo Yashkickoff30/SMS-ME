@@ -3,14 +3,14 @@ info:
     description: "State Monitoring Application!"
     version: "2.0.0"
     title: "SMS ME"
-host: "localhost:3000"
+host: "sms-med.herokuapp.com"
 basePath: "/api"
 tags:
     - name: "API"
       description: "Everything you need to know about the SMS ME API."
 schemes:
-    - "http"
     - "https"
+    - "http"
 paths:
     /:
         post:
