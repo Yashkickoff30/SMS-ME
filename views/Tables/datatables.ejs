@@ -214,51 +214,19 @@
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table
-                                                id="basic-datatables"
+                                                id="myTable"
                                                 class="display table table-striped table-hover"
                                             >
                                                 <thead>
                                                     <tr>
-                                                        <th>Name</th>
-                                                        <th>Position</th>
-                                                        <th>Office</th>
-                                                        <th>Age</th>
-                                                        <th>Start date</th>
-                                                        <th>Salary</th>
+                                                        <th>Spoke Id</th>
+                                                        <th>Hub Id</th>
+                                                        <th>On Time</th>
+                                                        <th>Off Time</th>
+                                                        <th>Date</th>
                                                     </tr>
                                                 </thead>
-
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Tiger Nixon</td>
-                                                        <td>
-                                                            System Architect
-                                                        </td>
-                                                        <td>Edinburgh</td>
-                                                        <td>61</td>
-                                                        <td>2011/04/25</td>
-                                                        <td>$320,800</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Garrett Winters</td>
-                                                        <td>Accountant</td>
-                                                        <td>Tokyo</td>
-                                                        <td>63</td>
-                                                        <td>2011/07/25</td>
-                                                        <td>$170,750</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Ashton Cox</td>
-                                                        <td>
-                                                            Junior Technical
-                                                            Author
-                                                        </td>
-                                                        <td>San Francisco</td>
-                                                        <td>66</td>
-                                                        <td>2009/01/12</td>
-                                                        <td>$86,000</td>
-                                                    </tr>
-                                                </tbody>
+                                                <tbody id="tBody"></tbody>
                                             </table>
                                         </div>
                                     </div>
@@ -330,70 +298,24 @@
         <script src="/js/atlantis.min.js"></script>
 
         <script>
-            $(document).ready(function () {
-                $("#basic-datatables").DataTable({});
-
-                $("#multi-filter-select").DataTable({
-                    pageLength: 5,
-                    initComplete: function () {
-                        this.api()
-                            .columns()
-                            .every(function () {
-                                var column = this;
-                                var select = $(
-                                    '<select class="form-control"><option value=""></option></select>'
-                                )
-                                    .appendTo($(column.footer()).empty())
-                                    .on("change", function () {
-                                        var val = $.fn.dataTable.util.escapeRegex(
-                                            $(this).val()
-                                        );
-
-                                        column
-                                            .search(
-                                                val ? "^" + val + "$" : "",
-                                                true,
-                                                false
-                                            )
-                                            .draw();
-                                    });
-
-                                column
-                                    .data()
-                                    .unique()
-                                    .sort()
-                                    .each(function (d, j) {
-                                        select.append(
-                                            '<option value="' +
-                                                d +
-                                                '">' +
-                                                d +
-                                                "</option>"
-                                        );
-                                    });
-                            });
+            $("#myTable").DataTable({
+                order: [[3, "desc"]],
+                lengthMenu: [10, 25, 50],
+                ajax: {
+                    url: "https://sms-med.herokuapp.com/api/logs",
+                    dataSrc: "",
+                },
+                columns: [
+                    { data: "spokeid" },
+                    { data: "hubid" },
+                    { data: "ontime" },
+                    { data: "offtime", defaultContent: "<b>--:--:--</b>" },
+                    {
+                        data: "date",
+                        render: (data, type, full, meta) =>
+                            `${full.day}, ${full.date}`,
                     },
-                });
-
-                // Add Row
-                $("#add-row").DataTable({
-                    pageLength: 5,
-                });
-
-                var action =
-                    '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
-
-                $("#addRowButton").click(function () {
-                    $("#add-row")
-                        .dataTable()
-                        .fnAddData([
-                            $("#addName").val(),
-                            $("#addPosition").val(),
-                            $("#addOffice").val(),
-                            action,
-                        ]);
-                    $("#addRowModal").modal("hide");
-                });
+                ],
             });
         </script>
     </body>
