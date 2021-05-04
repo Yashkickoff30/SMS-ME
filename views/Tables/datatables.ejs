@@ -298,11 +298,16 @@
         <script src="/js/atlantis.min.js"></script>
 
         <script>
+            //change true when hosting
+            let isTrue = false;
+            let url = isTrue
+                ? "https://sms-med.herokuapp.com/api/logs"
+                : "/api/logs";
             $("#myTable").DataTable({
                 order: [[3, "desc"]],
                 lengthMenu: [10, 25, 50],
                 ajax: {
-                    url: "https://sms-med.herokuapp.com/api/logs",
+                    url: url,
                     dataSrc: "",
                 },
                 columns: [

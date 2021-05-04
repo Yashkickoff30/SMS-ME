@@ -208,23 +208,54 @@
             <div class="main-panel">
                 <div class="content">
                     <div class="page-inner">
-                        <h4 class="page-title">Chart.js</h4>
-                        <div class="page-category">
-                            Simple yet flexible JavaScript charting for
-                            designers & developers. Please checkout their
-                            <a href="https://www.chartjs.org/" target="_blank"
-                                >full documentation</a
-                            >.
+                        <h4 class="page-title">Analytics
+                            <button
+                            type="button"
+                            id="#myModal"
+                            class="btn btn-primary btn-sm float-right"
+                            data-toggle="modal" data-target="#myModal"
+                        >
+                            Enter Date Manually
+                        </button>
+                        <div id ="activediv" style="margin-top: 30px;">
                         </div>
+                        <span id="error"></span> 
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+                            
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Enter Date</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                
+                                </div>
+                                <div class="modal-body">
+                                    <input type="date" style="font-size: 1.5rem;width: 100%;" id="datepicker" min="2020-11-20">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="submit" class="btn btn-success" data-dismiss="modal">Submit</button>
+                                </div>
+                            </div>
+                            
+                            </div>
+                        </div>
+                        </h4>
+                        
+                      
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="card">
                                     <div class="card-header">
-                                        <div class="card-title">Line Chart</div>
+                                        <div class="card-title">Device On and Off Status</div>
+                                            
+                                     
                                     </div>
+                                    
                                     <div class="card-body">
                                         <div class="chart-container">
-                                            <canvas id="lineChart"></canvas>
+                                            <canvas id="examChart1"></canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -236,7 +267,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="chart-container">
-                                            <canvas id="barChart"></canvas>
+                                            <canvas id="examChart2"></canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -360,6 +391,7 @@
                                 </div>
                             </div>
                         </div>
+                
                     </div>
                 </div>
             </div>
@@ -435,8 +467,10 @@
 
         <!-- Atlantis JS -->
         <script src="/js/atlantis.min.js"></script>
-
+        <script src="/js/demo.js"></script>
+       
         <script>
+           
             var lineChart = document
                     .getElementById("lineChart")
                     .getContext("2d"),
