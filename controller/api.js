@@ -121,3 +121,11 @@ exports.getDashboardData = async (req, res) => {
         return res.status(400).send({ Error: "Server Error" });
     }
 };
+
+exports.getDateSpecificInfo = async (req, res) => {
+    let userDate = req.query.date;
+    console.log(userDate);
+    const mydata = await State.find({ date: userDate });
+    console.log(mydata);
+    return res.json(mydata);
+};

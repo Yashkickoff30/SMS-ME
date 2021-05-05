@@ -5,6 +5,9 @@ const apiController = require("../controller/api");
 //* Device State Info
 router.post("/", apiController.addDeviceState);
 
+//* Get Date Specific Device Info
+router.get("/", apiController.getDateSpecificInfo);
+
 //* Web - datatable
 router.get("/logs", apiController.getLogs);
 
