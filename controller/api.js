@@ -7,9 +7,9 @@ const findThreshold = async (spokeId, hubId) => {
             $and: [{ spokeid: spokeId }, { hubid: hubId }],
         });
         console.log(
-            `${device.devicename} with spokeid ${device.spokeid} and hubid ${device.hubid} obtained! Its threshold is ${device.threshold}`
+            `${device.devicename} with spokeid ${device.spokeid} and hubid ${device.hubid} obtained!`
         );
-        return device.threshold;
+        return { savedVolt: device.volt, savedAmpere: device.ampere };
     } catch (err) {
         console.log("Error: " + err);
         return err;
@@ -17,10 +17,20 @@ const findThreshold = async (spokeId, hubId) => {
 };
 
 exports.addDeviceState = async (req, res) => {
-    // const threshold = await findThreshold(req.body.spokeid, req.body.hubid);
-    // Todo: 1. Retrieve the threshold value for the particular equipment using the Device document using the findThreshold function.
-    // Todo: 2. Check whether device is Idle by writing a function and include that value in the new State object!
     if (req.body.state == 1) {
+        let idle = false;
+        let { savedVolt, savedAmpere } = await findThreshold(
+            req.body.spokeid,
+            req.body.hubid
+        );
+        savedVolt = parseFloat(savedVolt);
+        savedAmpere = parseFloat(savedAmpere);
+        let rcvdVolt = parseFloat(req.body.volt);
+        let rcvdAmpere = parseFloat(req.body.ampere);
+        if (rcvdVolt < savedVolt && rcvdAmpere < savedAmpere) {
+            idle = true;
+            console.log("Currently Device is Idle!");
+        }
         const deviceState = new State({
             id: req.body.id,
             spokeid: req.body.spokeid,
@@ -30,6 +40,7 @@ exports.addDeviceState = async (req, res) => {
             day: req.body.day,
             ampere: req.body.ampere,
             volts: req.body.volt,
+            isIdle: idle,
         });
         try {
             const savedState = await deviceState.save();
