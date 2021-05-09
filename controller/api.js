@@ -103,9 +103,11 @@ exports.getDashboardData = async (req, res) => {
             let state = await State.findOne({ spokeid: id })
                 .sort({ $natural: -1 })
                 .limit(1);
-            if (state.offtime === null) {
+            if (state.isIdle) {
+                idleDevice++;
+            } else if (state.offtime === null && !state.isIdle) {
                 onDevice++;
-            } else if (state.ontime && state.offtime) {
+            } else if (state.ontime && state.offtime && !state.isIdle) {
                 offDevice++;
             }
         }
