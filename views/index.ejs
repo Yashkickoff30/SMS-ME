@@ -77,7 +77,12 @@
                             State Monitoring Solution for Medical Equipment
                         </h2>
                         <ul
-                            class="navbar-nav topbar-nav ml-md-auto align-items-center"
+                            class="
+                                navbar-nav
+                                topbar-nav
+                                ml-md-auto
+                                align-items-center
+                            "
                         >
                             <li class="nav-item dropdown hidden-caret">
                                 <a
@@ -95,10 +100,17 @@
                                     </div>
                                 </a>
                                 <ul
-                                    class="dropdown-menu dropdown-user animated fadeIn"
+                                    class="
+                                        dropdown-menu dropdown-user
+                                        animated
+                                        fadeIn
+                                    "
                                 >
                                     <div
-                                        class="dropdown-user-scroll scrollbar-outer"
+                                        class="
+                                            dropdown-user-scroll
+                                            scrollbar-outer
+                                        "
                                     >
                                         <li>
                                             <div class="user-box">
@@ -106,21 +118,29 @@
                                                     <img
                                                         src="/img/profile.png"
                                                         alt="image profile"
-                                                        class="avatar-img rounded"
+                                                        class="
+                                                            avatar-img
+                                                            rounded
+                                                        "
                                                     />
                                                 </div>
                                                 <div class="u-text">
                                                     <h4>Member</h4>
-                                                   
                                                 </div>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="dropdown-divider"></div>
 
-                                            <a class="dropdown-item" href="/login">
+                                            <a
+                                                class="dropdown-item"
+                                                href="/login"
+                                            >
                                                 <i
-                                                    class="fas fa-sign-out-alt fa-lg"
+                                                    class="
+                                                        fas
+                                                        fa-sign-out-alt fa-lg
+                                                    "
                                                 ></i>
                                                 Logout
                                             </a>
@@ -216,7 +236,11 @@
                     <div class="panel-header bg-primary-gradient">
                         <div class="page-inner py-5">
                             <div
-                                class="d-flex align-items-left align-items-md-center flex-column flex-md-row"
+                                class="
+                                    d-flex
+                                    align-items-left align-items-md-center
+                                    flex-column flex-md-row
+                                "
                             >
                                 <div>
                                     <h2 class="text-white pb-2 fw-bold">
@@ -239,10 +263,20 @@
                                             in system
                                         </div>
                                         <div
-                                            class="d-flex flex-wrap justify-content-around pb-2 pt-4"
+                                            class="
+                                                d-flex
+                                                flex-wrap
+                                                justify-content-around
+                                                pb-2
+                                                pt-4
+                                            "
                                         >
                                             <div
-                                                class="px-2 pb-2 pb-md-0 text-center"
+                                                class="
+                                                    px-2
+                                                    pb-2 pb-md-0
+                                                    text-center
+                                                "
                                             >
                                                 <div id="circles-1"></div>
                                                 <h6 class="fw-bold mt-3 mb-0">
@@ -250,7 +284,11 @@
                                                 </h6>
                                             </div>
                                             <div
-                                                class="px-2 pb-2 pb-md-0 text-center"
+                                                class="
+                                                    px-2
+                                                    pb-2 pb-md-0
+                                                    text-center
+                                                "
                                             >
                                                 <div id="circles-2"></div>
                                                 <h6 class="fw-bold mt-3 mb-0">
@@ -258,7 +296,11 @@
                                                 </h6>
                                             </div>
                                             <div
-                                                class="px-2 pb-2 pb-md-0 text-center"
+                                                class="
+                                                    px-2
+                                                    pb-2 pb-md-0
+                                                    text-center
+                                                "
                                             >
                                                 <div id="circles-3"></div>
                                                 <h6 class="fw-bold mt-3 mb-0">
@@ -272,8 +314,11 @@
                             <div class="col-md-6">
                                 <div class="card full-height">
                                     <div class="card-body">
-                                        <img src = "https://magazine.xpert.tv/wp-content/uploads/2020/07/data-analysis.gif" class="img-fluid" alt="Responsive image"/>
-                          
+                                        <img
+                                            src="https://magazine.xpert.tv/wp-content/uploads/2020/07/data-analysis.gif"
+                                            class="img-fluid"
+                                            alt="Responsive image"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -281,13 +326,16 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="card">
-                                
                                     <div class="card-body">
                                         <div
                                             class="chart-container"
                                             style="min-height: 375px"
                                         >
-                                        <img src = "https://magazine.xpert.tv/wp-content/uploads/2020/07/giphy-25.gif" class="img-fluid" alt="Responsive image"/>
+                                            <img
+                                                src="https://magazine.xpert.tv/wp-content/uploads/2020/07/giphy-25.gif"
+                                                class="img-fluid"
+                                                alt="Responsive image"
+                                            />
                                             <!-- <canvas
                                                 id="statisticsChart"
                                             ></canvas> -->
@@ -298,7 +346,10 @@
                             </div>
                             <div class="col-md-4">
                                 <div
-                                    class="card card-primary bg-primary-gradient"
+                                    class="
+                                        card card-primary
+                                        bg-primary-gradient
+                                    "
                                 >
                                     <div class="card-body">
                                         <h4 class="mt-3 b-b1 pb-2 mb-4 fw-bold">
@@ -401,175 +452,172 @@
             let totalSum = 0;
             let offArr = [];
             let finalDate = getCurrentDate();
-console.log(finalDate);
-async function getChartData() {
-    let isTrue = false;
-        let url = isTrue
-            ? "https://sms-med.herokuapp.com/api"
-            : "/api";
-  if (finalDate) {
-    url += `?date=${finalDate}`;
-  }
-  console.log(url);
-  const response = await fetch(url);
-  return response.json();
-}
+            console.log(finalDate);
+            async function getChartData() {
+                let isTrue = true;
+                let url = isTrue ? "https://sms-med.herokuapp.com/api" : "/api";
+                if (finalDate) {
+                    url += `?date=${finalDate}`;
+                }
+                console.log(url);
+                const response = await fetch(url);
+                return response.json();
+            }
 
+            async function assignData() {
+                mydata = await getChartData(finalDate);
+                console.log(mydata);
 
-async function assignData() {
-  mydata = await getChartData(finalDate);
-  console.log(mydata);
+                mydata.forEach((data) => {
+                    let d = data.date.split(".");
+                    if (data.ontime && data.offtime) {
+                        let onData = `${d[1]} ${d[0]} ${d[2]} ${data.ontime}`;
+                        let offData = `${d[1]} ${d[0]} ${d[2]} ${data.offtime}`;
+                        onArr.push(onData);
+                        offArr.push(offData);
+                    } else {
+                        let onData = `${d[1]} ${d[0]} ${d[2]} ${data.ontime}`;
+                        console.log(onData);
+                        showDiff(onData);
+                    }
+                });
+                console.log(onArr);
+                console.log(offArr);
+            }
 
-  mydata.forEach(data => {
-    let d = data.date.split('.');
-    if (data.ontime && data.offtime) {
-      let onData = `${d[1]} ${d[0]} ${d[2]} ${data.ontime}`;
-      let offData = `${d[1]} ${d[0]} ${d[2]} ${data.offtime}`;
-      onArr.push(onData);
-      offArr.push(offData);
-    } else {
-      let onData = `${d[1]} ${d[0]} ${d[2]} ${data.ontime}`;
-      console.log(onData);
-      showDiff(onData);
-    }
-  });
-  console.log(onArr);
-  console.log(offArr);
-  
-}
+            function getCurrentDate() {
+                let monthNames = [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December",
+                ];
+                let dateObj = new Date();
+                let monthString = monthNames[dateObj.getMonth()];
+                let monthNo = monthNames.indexOf(monthString) + 1;
+                let day = String(dateObj.getDate()).padStart(2, "0");
+                let year = dateObj.getFullYear();
+                let output = day + "." + monthNo + "." + year;
+                return output;
+            }
 
-function getCurrentDate() {
-  let monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-  let dateObj = new Date();
-  let monthString = monthNames[dateObj.getMonth()];
-  let monthNo = monthNames.indexOf(monthString) + 1;
-  let day = String(dateObj.getDate()).padStart(2, '0');
-  let year = dateObj.getFullYear();
-  let output = day + '.' + monthNo + '.' + year;
-  return output;
-}
+            function getTotalSum() {
+                const minuteGraph = [];
+                for (let i = 0; i < onArr.length; i++) {
+                    const start = new Date(onArr[i]);
+                    const stop = new Date(offArr[i]);
+                    const data = Math.round(
+                        (stop.getTime() - start.getTime()) / 1000 / 60
+                    );
+                    minuteGraph.push({
+                        startHour: start.getHours(),
+                        stopHour: stop.getHours(),
+                        duration: data,
+                    });
+                }
 
-
-function getTotalSum() {
-  const minuteGraph = [];
-  for (let i = 0; i < onArr.length; i++) {
-    const start = new Date(onArr[i]);
-    const stop = new Date(offArr[i]);
-    const data = Math.round((stop.getTime() - start.getTime()) / 1000 / 60);
-    minuteGraph.push({
-      startHour: start.getHours(),
-      stopHour: stop.getHours(),
-      duration: data,
-    });
-  }
-
-  let time = 0;
-  const finalArr = [];
-  let start = parseInt(onArr[0].split(' ')[3].split(':')[0]);
-  let stop = parseInt(onArr[onArr.length - 1].split(' ')[3].split(':')[0]);
-  for (let i = start; i <= stop; i++) {
-    minuteGraph
-      .filter(data => data.startHour === i)
-      .forEach(data => {
-        console.log(data);
-        time += data.duration;
-      });
-    console.log(time);
-    finalArr.push(time);
-    time = 0;
-  }
-  finalArr.forEach(data => {
-    totalSum += data;
-  });
-}
+                let time = 0;
+                const finalArr = [];
+                let start = parseInt(onArr[0].split(" ")[3].split(":")[0]);
+                let stop = parseInt(
+                    onArr[onArr.length - 1].split(" ")[3].split(":")[0]
+                );
+                for (let i = start; i <= stop; i++) {
+                    minuteGraph
+                        .filter((data) => data.startHour === i)
+                        .forEach((data) => {
+                            console.log(data);
+                            time += data.duration;
+                        });
+                    console.log(time);
+                    finalArr.push(time);
+                    time = 0;
+                }
+                finalArr.forEach((data) => {
+                    totalSum += data;
+                });
+            }
 
             async function getChartData1() {
-            let isTrue = false;
+                let isTrue = true;
                 let url = isTrue
                     ? "https://sms-med.herokuapp.com/api/dailydata"
                     : "/api/dailydata";
 
-
-            console.log(url);
-            const response = await fetch(url);
-            return response.json();
+                console.log(url);
+                const response = await fetch(url);
+                return response.json();
             }
 
             async function assignData1() {
-            mydata1 = await getChartData1();
-            console.log("yash...");
-            console.log(mydata1);
+                mydata1 = await getChartData1();
+                console.log("yash...");
+                console.log(mydata1);
 
-            noidle = mydata1.idleDevice;
-            noon = mydata1.onDevice;
-            nooff = mydata1.offDevice;
-            console.log("ooo");
-            console.log(nooff);
-            circles();
+                noidle = mydata1.idleDevice;
+                noon = mydata1.onDevice;
+                nooff = mydata1.offDevice;
+                console.log("ooo");
+                console.log(nooff);
+                circles();
             }
             assignData1();
             assignData();
             getTotalSum();
-            function circles(){
-            Circles.create({
-                id: "circles-1",
-                radius: 70,
-                value: noidle,
-                maxValue: 5,
-                width: 7,
-                text: noidle.toString(),
-                colors: ["#f1f1f1", "#FF9E27"],
-                duration: 400,
-                wrpClass: "circles-wrp",
-                textClass: "circles-text",
-                styleWrapper: true,
-                styleText: true,
-            });
+            function circles() {
+                Circles.create({
+                    id: "circles-1",
+                    radius: 70,
+                    value: noidle,
+                    maxValue: 5,
+                    width: 7,
+                    text: noidle.toString(),
+                    colors: ["#f1f1f1", "#FF9E27"],
+                    duration: 400,
+                    wrpClass: "circles-wrp",
+                    textClass: "circles-text",
+                    styleWrapper: true,
+                    styleText: true,
+                });
 
-            Circles.create({
-                id: "circles-2",
-                radius: 70,
-                value: noon,
-                maxValue: 5,
-                width: 7,
-                text: noon.toString(),
-                colors: ["#f1f1f1", "#2BB930"],
-                duration: 400,
-                wrpClass: "circles-wrp",
-                textClass: "circles-text",
-                styleWrapper: true,
-                styleText: true,
-            });
+                Circles.create({
+                    id: "circles-2",
+                    radius: 70,
+                    value: noon,
+                    maxValue: 5,
+                    width: 7,
+                    text: noon.toString(),
+                    colors: ["#f1f1f1", "#2BB930"],
+                    duration: 400,
+                    wrpClass: "circles-wrp",
+                    textClass: "circles-text",
+                    styleWrapper: true,
+                    styleText: true,
+                });
 
-            Circles.create({
-                id: "circles-3",
-                radius: 70,
-                value: nooff,
-                maxValue: 5,
-                width: 7,
-                text: nooff.toString(),
-                colors: ["#f1f1f1", "#F25961"],
-                duration: 400,
-                wrpClass: "circles-wrp",
-                textClass: "circles-text",
-                styleWrapper: true,
-                styleText: true,
-            });
-        }
-            
+                Circles.create({
+                    id: "circles-3",
+                    radius: 70,
+                    value: nooff,
+                    maxValue: 5,
+                    width: 7,
+                    text: nooff.toString(),
+                    colors: ["#f1f1f1", "#F25961"],
+                    duration: 400,
+                    wrpClass: "circles-wrp",
+                    textClass: "circles-text",
+                    styleWrapper: true,
+                    styleText: true,
+                });
+            }
         </script>
     </body>
 </html>
