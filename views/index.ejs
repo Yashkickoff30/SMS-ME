@@ -111,16 +111,14 @@
                                                 </div>
                                                 <div class="u-text">
                                                     <h4>Member</h4>
-                                                    <p class="text-muted">
-                                                        hello@example.com
-                                                    </p>
+                                                   
                                                 </div>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="dropdown-divider"></div>
 
-                                            <a class="dropdown-item" href="#">
+                                            <a class="dropdown-item" href="/login">
                                                 <i
                                                     class="fas fa-sign-out-alt fa-lg"
                                                 ></i>
@@ -248,7 +246,7 @@
                                             >
                                                 <div id="circles-1"></div>
                                                 <h6 class="fw-bold mt-3 mb-0">
-                                                    Idle time
+                                                    Idle Devices
                                                 </h6>
                                             </div>
                                             <div
@@ -256,7 +254,7 @@
                                             >
                                                 <div id="circles-2"></div>
                                                 <h6 class="fw-bold mt-3 mb-0">
-                                                    Active time
+                                                    On Devices
                                                 </h6>
                                             </div>
                                             <div
@@ -264,7 +262,7 @@
                                             >
                                                 <div id="circles-3"></div>
                                                 <h6 class="fw-bold mt-3 mb-0">
-                                                    Off time
+                                                    Off Devices
                                                 </h6>
                                             </div>
                                         </div>
@@ -274,38 +272,8 @@
                             <div class="col-md-6">
                                 <div class="card full-height">
                                     <div class="card-body">
-                                        <div class="card-title">
-                                            Past 2 hours
-                                        </div>
-                                        <div class="row py-3">
-                                            <div
-                                                class="col-md-4 d-flex flex-column justify-content-around"
-                                            >
-                                                <div>
-                                                    <h6
-                                                        class="fw-bold text-uppercase text-success op-8"
-                                                    >
-                                                        Active time
-                                                    </h6>
-                                                    <h3 class="fw-bold">40</h3>
-                                                </div>
-                                                <div>
-                                                    <h6
-                                                        class="fw-bold text-uppercase text-danger op-8"
-                                                    >
-                                                        Off time
-                                                    </h6>
-                                                    <h3 class="fw-bold">23</h3>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div id="chart-container">
-                                                    <canvas
-                                                        id="totalIncomeChart"
-                                                    ></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <img src = "https://magazine.xpert.tv/wp-content/uploads/2020/07/data-analysis.gif" class="img-fluid" alt="Responsive image"/>
+                          
                                     </div>
                                 </div>
                             </div>
@@ -313,21 +281,16 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="card">
-                                    <div class="card-header">
-                                        <div class="card-head-row">
-                                            <div class="card-title">
-                                                Device Statistics
-                                            </div>
-                                        </div>
-                                    </div>
+                                
                                     <div class="card-body">
                                         <div
                                             class="chart-container"
                                             style="min-height: 375px"
                                         >
-                                            <canvas
+                                        <img src = "https://magazine.xpert.tv/wp-content/uploads/2020/07/giphy-25.gif" class="img-fluid" alt="Responsive image"/>
+                                            <!-- <canvas
                                                 id="statisticsChart"
-                                            ></canvas>
+                                            ></canvas> -->
                                         </div>
                                         <div id="myChartLegend"></div>
                                     </div>
@@ -429,13 +392,145 @@
         <script src="/js/demo.js"></script> -->
 
         <script>
+            let mydata1;
+            let noon;
+            let nooff;
+            let noidle;
+            let mydata;
+            let onArr = [];
+            let totalSum = 0;
+            let offArr = [];
+            let finalDate = getCurrentDate();
+console.log(finalDate);
+async function getChartData() {
+    let isTrue = false;
+        let url = isTrue
+            ? "https://sms-med.herokuapp.com/api"
+            : "/api";
+  if (finalDate) {
+    url += `?date=${finalDate}`;
+  }
+  console.log(url);
+  const response = await fetch(url);
+  return response.json();
+}
+
+
+async function assignData() {
+  mydata = await getChartData(finalDate);
+  console.log(mydata);
+
+  mydata.forEach(data => {
+    let d = data.date.split('.');
+    if (data.ontime && data.offtime) {
+      let onData = `${d[1]} ${d[0]} ${d[2]} ${data.ontime}`;
+      let offData = `${d[1]} ${d[0]} ${d[2]} ${data.offtime}`;
+      onArr.push(onData);
+      offArr.push(offData);
+    } else {
+      let onData = `${d[1]} ${d[0]} ${d[2]} ${data.ontime}`;
+      console.log(onData);
+      showDiff(onData);
+    }
+  });
+  console.log(onArr);
+  console.log(offArr);
+  
+}
+
+function getCurrentDate() {
+  let monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  let dateObj = new Date();
+  let monthString = monthNames[dateObj.getMonth()];
+  let monthNo = monthNames.indexOf(monthString) + 1;
+  let day = String(dateObj.getDate()).padStart(2, '0');
+  let year = dateObj.getFullYear();
+  let output = day + '.' + monthNo + '.' + year;
+  return output;
+}
+
+
+function getTotalSum() {
+  const minuteGraph = [];
+  for (let i = 0; i < onArr.length; i++) {
+    const start = new Date(onArr[i]);
+    const stop = new Date(offArr[i]);
+    const data = Math.round((stop.getTime() - start.getTime()) / 1000 / 60);
+    minuteGraph.push({
+      startHour: start.getHours(),
+      stopHour: stop.getHours(),
+      duration: data,
+    });
+  }
+
+  let time = 0;
+  const finalArr = [];
+  let start = parseInt(onArr[0].split(' ')[3].split(':')[0]);
+  let stop = parseInt(onArr[onArr.length - 1].split(' ')[3].split(':')[0]);
+  for (let i = start; i <= stop; i++) {
+    minuteGraph
+      .filter(data => data.startHour === i)
+      .forEach(data => {
+        console.log(data);
+        time += data.duration;
+      });
+    console.log(time);
+    finalArr.push(time);
+    time = 0;
+  }
+  finalArr.forEach(data => {
+    totalSum += data;
+  });
+}
+
+            async function getChartData1() {
+            let isTrue = false;
+                let url = isTrue
+                    ? "https://sms-med.herokuapp.com/api/dailydata"
+                    : "/api/dailydata";
+
+
+            console.log(url);
+            const response = await fetch(url);
+            return response.json();
+            }
+
+            async function assignData1() {
+            mydata1 = await getChartData1();
+            console.log("yash...");
+            console.log(mydata1);
+
+            noidle = mydata1.idleDevice;
+            noon = mydata1.onDevice;
+            nooff = mydata1.offDevice;
+            console.log("ooo");
+            console.log(nooff);
+            circles();
+            }
+            assignData1();
+            assignData();
+            getTotalSum();
+            function circles(){
             Circles.create({
                 id: "circles-1",
-                radius: 45,
-                value: 60,
-                maxValue: 100,
+                radius: 70,
+                value: noidle,
+                maxValue: 5,
                 width: 7,
-                text: 5,
+                text: noidle.toString(),
                 colors: ["#f1f1f1", "#FF9E27"],
                 duration: 400,
                 wrpClass: "circles-wrp",
@@ -446,11 +541,11 @@
 
             Circles.create({
                 id: "circles-2",
-                radius: 45,
-                value: 70,
-                maxValue: 100,
+                radius: 70,
+                value: noon,
+                maxValue: 5,
                 width: 7,
-                text: 36,
+                text: noon.toString(),
                 colors: ["#f1f1f1", "#2BB930"],
                 duration: 400,
                 wrpClass: "circles-wrp",
@@ -461,11 +556,11 @@
 
             Circles.create({
                 id: "circles-3",
-                radius: 45,
-                value: 40,
-                maxValue: 100,
+                radius: 70,
+                value: nooff,
+                maxValue: 5,
                 width: 7,
-                text: 12,
+                text: nooff.toString(),
                 colors: ["#f1f1f1", "#F25961"],
                 duration: 400,
                 wrpClass: "circles-wrp",
@@ -473,216 +568,8 @@
                 styleWrapper: true,
                 styleText: true,
             });
-
-            var totalIncomeChart = document
-                .getElementById("totalIncomeChart")
-                .getContext("2d");
-
-            var mytotalIncomeChart = new Chart(totalIncomeChart, {
-                type: "bar",
-                data: {
-                    labels: ["S", "M", "T", "W", "T", "F", "S", "S", "M", "T"],
-                    datasets: [
-                        {
-                            label: "Active time",
-                            backgroundColor: "#ff9e27",
-                            borderColor: "rgb(23, 125, 255)",
-                            data: [6, 4, 9, 5, 4, 6, 4, 3, 8, 10],
-                        },
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: {
-                        display: false,
-                    },
-                    scales: {
-                        yAxes: [
-                            {
-                                ticks: {
-                                    display: false, //this will remove only the label
-                                },
-                                gridLines: {
-                                    drawBorder: false,
-                                    display: false,
-                                },
-                            },
-                        ],
-                        xAxes: [
-                            {
-                                gridLines: {
-                                    drawBorder: false,
-                                    display: false,
-                                },
-                            },
-                        ],
-                    },
-                },
-            });
-
-            var ctx = document
-                .getElementById("statisticsChart")
-                .getContext("2d");
-
-            var statisticsChart = new Chart(ctx, {
-                type: "line",
-                data: {
-                    labels: [
-                        "Jan",
-                        "Feb",
-                        "Mar",
-                        "Apr",
-                        "May",
-                        "Jun",
-                        "Jul",
-                        "Aug",
-                        "Sep",
-                        "Oct",
-                        "Nov",
-                        "Dec",
-                    ],
-                    datasets: [
-                        {
-                            label: "Off time",
-                            borderColor: "#f3545d",
-                            pointBackgroundColor: "rgba(243, 84, 93, 0.6)",
-                            pointRadius: 0,
-                            backgroundColor: "rgba(243, 84, 93, 0.4)",
-                            legendColor: "#f3545d",
-                            fill: true,
-                            borderWidth: 2,
-                            data: [
-                                154,
-                                184,
-                                175,
-                                203,
-                                210,
-                                231,
-                                240,
-                                278,
-                                252,
-                                312,
-                                320,
-                                374,
-                            ],
-                        },
-                        {
-                            label: "Idle time",
-                            borderColor: "#fdaf4b",
-                            pointBackgroundColor: "rgba(253, 175, 75, 0.6)",
-                            pointRadius: 0,
-                            backgroundColor: "rgba(253, 175, 75, 0.4)",
-                            legendColor: "#fdaf4b",
-                            fill: true,
-                            borderWidth: 2,
-                            data: [
-                                256,
-                                230,
-                                245,
-                                287,
-                                240,
-                                250,
-                                230,
-                                295,
-                                331,
-                                431,
-                                456,
-                                521,
-                            ],
-                        },
-                        {
-                            label: "Active time",
-                            borderColor: "#177dff",
-                            pointBackgroundColor: "rgba(23, 125, 255, 0.6)",
-                            pointRadius: 0,
-                            backgroundColor: "rgba(23, 125, 255, 0.4)",
-                            legendColor: "#177dff",
-                            fill: true,
-                            borderWidth: 2,
-                            data: [
-                                542,
-                                480,
-                                430,
-                                550,
-                                530,
-                                453,
-                                380,
-                                434,
-                                568,
-                                610,
-                                700,
-                                900,
-                            ],
-                        },
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: {
-                        display: false,
-                    },
-                    tooltips: {
-                        bodySpacing: 4,
-                        mode: "nearest",
-                        intersect: 0,
-                        position: "nearest",
-                        xPadding: 10,
-                        yPadding: 10,
-                        caretPadding: 10,
-                    },
-                    layout: {
-                        padding: { left: 5, right: 5, top: 15, bottom: 15 },
-                    },
-                    scales: {
-                        yAxes: [
-                            {
-                                ticks: {
-                                    fontStyle: "500",
-                                    beginAtZero: false,
-                                    maxTicksLimit: 5,
-                                    padding: 10,
-                                },
-                                gridLines: {
-                                    drawTicks: false,
-                                    display: false,
-                                },
-                            },
-                        ],
-                        xAxes: [
-                            {
-                                gridLines: {
-                                    zeroLineColor: "transparent",
-                                },
-                                ticks: {
-                                    padding: 10,
-                                    fontStyle: "500",
-                                },
-                            },
-                        ],
-                    },
-                    legendCallback: function (chart) {
-                        var text = [];
-                        text.push(
-                            '<ul class="' + chart.id + '-legend html-legend">'
-                        );
-                        for (var i = 0; i < chart.data.datasets.length; i++) {
-                            text.push(
-                                '<li><span style="background-color:' +
-                                    chart.data.datasets[i].legendColor +
-                                    '"></span>'
-                            );
-                            if (chart.data.datasets[i].label) {
-                                text.push(chart.data.datasets[i].label);
-                            }
-                            text.push("</li>");
-                        }
-                        text.push("</ul>");
-                        return text.join("");
-                    },
-                },
-            });
+        }
+            
         </script>
     </body>
 </html>

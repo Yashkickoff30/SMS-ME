@@ -1,7 +1,13 @@
+//let ctx1 = document.getElementById('examChart1').getContext('2d');
+
 let mydata;
+let mydata1;
 let onArr = [];
 let totalSum = 0;
 let offArr = [];
+let noidle;
+let nooff;
+let noon;
 let finalDate = getCurrentDate();
 let timer;
 
@@ -12,11 +18,15 @@ document.getElementById('submit').addEventListener('click', function () {
   console.log(finalDate);
   deleteData();
   assignData();
-  closeModal1();
+  //closeModal1();
 });
 
 async function getChartData() {
-  let url = 'https://sms-med.herokuapp.com/api';
+  let isTrue = false;
+        let url = isTrue
+            ? "https://sms-med.herokuapp.com/api"
+            : "/api";
+ 
   if (finalDate) {
     url += `?date=${finalDate}`;
   }
@@ -24,9 +34,23 @@ async function getChartData() {
   const response = await fetch(url);
   return response.json();
 }
+async function getChartData1() {
+  let isTrue = false;
+        let url = isTrue
+            ? "https://sms-med.herokuapp.com/api/dailydata"
+            : "/api/dailydata";
+ 
+  
+  console.log(url);
+  const response = await fetch(url);
+  return response.json();
+}
 assignData();
+assignData1();
 async function assignData() {
   mydata = await getChartData(finalDate);
+  
+  
   console.log(mydata);
   const error = document.getElementById('error');
   if (mydata.length == 0) {
@@ -41,11 +65,11 @@ async function assignData() {
     error.style.color = '#5cb85c';
     error.style.fontSize = '25';
   }
-  Chart.defaults.global.defaultFontFamily = 'Alegreya';
+  /*Chart.defaults.global.defaultFontFamily = 'Alegreya';
   Chart.defaults.global.defaultFontSize = 18;
   Chart.defaults.global.defaultFontColor = '#777';
   Chart.defaults.global.defaultFontStyle = 'Bold';
-
+*/
   mydata.forEach(data => {
     let d = data.date.split('.');
     if (data.ontime && data.offtime) {
@@ -59,11 +83,27 @@ async function assignData() {
       showDiff(onData);
     }
   });
+
   console.log(onArr);
   console.log(offArr);
+  //ctx1.destroy();
   lineChart();
   barChart();
-  loadLastDiv();
+  pieChart();
+  
+}
+
+async function assignData1() {
+  mydata1 = await getChartData1(finalDate);
+  console.log("yash...");
+  console.log(mydata1);
+  
+    noidle = mydata1.idleDevice;
+    noon = mydata1.onDevice;
+    nooff = mydata1.offDevice;
+    console.log("ooo");
+    console.log(nooff);
+ 
 }
 
 function deleteData() {
@@ -73,7 +113,7 @@ function deleteData() {
     timer = null;
     console.log(`AFTER TIMER VALUE: ${timer}`);
   }
-  let canvas1 = $('#examChart1')[0];
+  let canvas1 = $('#linechart1')[0];
   canvas1.width = canvas1.width;
   let canvas2 = $('#examChart2')[0];
   canvas2.width = canvas2.width;
@@ -146,115 +186,49 @@ function showDiff(formattedOn) {
   }, 1000);
 }
 
-function lineChart() {
-  const xOnData = chartData(onArr);
-  const xOffData = chartData(offArr);
-
-  function chartData(array) {
-    const result = [];
-    array.forEach((data, index) => {
-      result.push({
-        t: new Date(data),
-        y: index + 1,
-      });
-    });
-    return result;
-  }
-  console.log(xOnData);
-  console.log(xOffData);
-
-  let dataFirst = {
-    label: 'OnTime',
-    data: xOnData,
-    pointRadius: 5,
-    fill: false,
-    backgroundColor: 'rgba(22, 165, 150, 1)',
-    // 'rgba(54, 162, 235, 0.2)',
-    // 'rgba(255, 206, 86, 0.2)',
-    // 'rgba(75, 192, 192, 0.2)',
-    // 'rgba(153, 102, 255, 0.2)',
-    // 'rgba(255, 159, 64, 0.2)'
-
-    borderColor: [
-      'rgba(22, 165, 150,1)',
-      // 'rgba(54, 162, 235, 1)',
-      // 'rgba(255, 206, 86, 1)',
-      // 'rgba(75, 192, 192, 1)',
-      // 'rgba(153, 102, 255, 1)',
-      // 'rgba(255, 159, 64, 1)'
-    ],
-    borderWidth: 1,
-  };
-
-  let dataSecond = {
-    label: 'OffTime',
-    data: xOffData,
-    pointRadius: 5,
-    fill: false,
-    backgroundColor: 'rgba(240,84,84,1)',
-    borderColor: [
-      'rgba(240,84,84,1)',
-      // 'rgba(54, 162, 235, 1)',
-      // 'rgba(255, 206, 86, 1)',
-      // 'rgba(75, 192, 192, 1)',
-      // 'rgba(153, 102, 255, 1)',
-      // 'rgba(255, 159, 64, 1)'
-    ],
-    borderWidth: 1,
-  };
-
-  let speedData = {
-    datasets: [dataFirst, dataSecond],
-  };
-
-  let ctx1 = document.getElementById('examChart1').getContext('2d');
-  let myChart = new Chart(ctx1, {
-    type: 'line',
-    data: speedData,
-    options: {
-      scales: {
-        xAxes: [
-          {
-            type: 'time',
-            time: {
-              stepSize: 3,
+function pieChart() {
+  let pieChart = document.getElementById("pieChart").getContext("2d");
+  var myPieChart = new Chart(pieChart, {
+    type: "pie",
+    data: {
+        datasets: [
+            {
+                data: [parseFloat(noon), parseFloat(nooff), parseFloat(noidle)],
+                backgroundColor: ["#16c79a", "#f3545d", "#fdaf4b"],
+                borderWidth: 0,
             },
-          },
         ],
-        yAxes: [
-          {
-            ticks: {
-              precision: 0,
-            },
-          },
-        ],
-      },
-      title: {
-        display: true,
-        text: 'Device On and Off Status - Line Graph',
-        fontSize: 25,
-        fontColor: '#111',
-      },
-      legend: {
-        display: true,
-        position: 'right',
-        labels: {
-          fontColor: '#111',
-        },
-      },
-      layout: {
-        padding: {
-          left: 50,
-          right: 0,
-          bottom: 0,
-          top: 0,
-        },
-      },
-      tooltips: {
-        enabled: true,
-      },
+        labels: ["On Devices", "Off Devices", "Idle Devices"],
     },
-  });
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+            position: "bottom",
+            labels: {
+            fontColor: '#111',
+            },
+        },
+        pieceLabel: {
+            render: "percentage",
+            fontColor: "white",
+            fontSize: 14,
+        },
+        tooltips: {
+          enabled: true,
+        },
+        layout: {
+            padding: {
+                left: 20,
+                right: 20,
+                top: 20,
+                bottom: 20,
+            },
+        },
+    },
+});
+
+
 }
 
 function barChart() {
@@ -321,13 +295,8 @@ function barChart() {
   //options
   var options = {
     responsive: true,
-    title: {
-      display: true,
-      position: 'top',
-      text: 'Active State - Bar Graph',
-      fontSize: 25,
-      fontColor: '#111',
-    },
+    maintainAspectRatio: false,
+    
     legend: {
       display: true,
       position: 'bottom',
@@ -356,6 +325,125 @@ function barChart() {
     options: options,
   });
 }
+
+
+function lineChart() {
+  console.log("hellooooo");
+  const xOnData = chartData(onArr);
+  const xOffData = chartData(offArr);
+  console.log(xOnData);
+  console.log(xOffData);
+
+  function chartData(array) {
+    const result = [];
+    array.forEach((data, index) => {
+      result.push({
+        t: new Date(data),
+        y: index + 1,
+      });
+    });
+    return result;
+  }
+  console.log(xOnData);
+  console.log(xOffData);
+
+  let dataFirst = {
+    label: 'OnTime',
+    //data: [0, 59, 75, 20, 20, 55, 40],
+    data: xOnData,
+    pointRadius: 5,
+    fill: false,
+    backgroundColor: 'rgba(22, 165, 150, 1)',
+    // 'rgba(54, 162, 235, 0.2)',
+    // 'rgba(255, 206, 86, 0.2)',
+    // 'rgba(75, 192, 192, 0.2)',
+    // 'rgba(153, 102, 255, 0.2)',
+    // 'rgba(255, 159, 64, 0.2)'
+
+    borderColor: [
+      'rgba(22, 165, 150,1)',
+      // 'rgba(54, 162, 235, 1)',
+      // 'rgba(255, 206, 86, 1)',
+      // 'rgba(75, 192, 192, 1)',
+      // 'rgba(153, 102, 255, 1)',
+      // 'rgba(255, 159, 64, 1)'
+    ],
+    borderWidth: 1,
+  };
+
+  let dataSecond = {
+    label: 'OffTime',
+    //data: [20, 15, 60, 60, 65, 30, 70],
+    data: xOffData,
+    pointRadius: 5,
+    fill: false,
+    backgroundColor: 'rgba(240,84,84,1)',
+    borderColor: [
+      'rgba(240,84,84,1)',
+      // 'rgba(54, 162, 235, 1)',
+      // 'rgba(255, 206, 86, 1)',
+      // 'rgba(75, 192, 192, 1)',
+      // 'rgba(153, 102, 255, 1)',
+      // 'rgba(255, 159, 64, 1)'
+    ],
+    borderWidth: 1,
+  };
+
+  let speedData = {
+    datasets: [dataFirst, dataSecond],
+  };
+
+
+  let newchart = document.getElementById("linechart1").getContext("2d");
+  //let newchart = document.getElementById('linechart1').getContext('2d');
+  let myChart = new Chart(newchart, {
+    type: 'line',
+    data: speedData,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        xAxes: [
+          {
+            type: 'time',
+            time: {
+              stepSize: 5,
+            },
+          },
+        ],
+        yAxes: [
+          {
+            ticks: {
+              precision: 0,
+            },
+          },
+        ],
+      },
+    
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: {
+          fontColor: '#111',
+        },
+      },
+      layout: {
+        padding: {
+            left: 20,
+            right: 20,
+            top: 20,
+            bottom: 20,
+        },
+    },
+      tooltips: {
+        enabled: true,
+      },
+    },
+  });
+  //myChart.destroy();
+  console.log("hellooooo");
+}
+/*
 function loadLastDiv() {
   const closing_div1 = document.getElementById('closing1');
   const closing_div2 = document.getElementById('closing2');
@@ -375,4 +463,4 @@ function loadLastDiv() {
   closing_div2.append(last1);
   closing_div1.append(h11);
   closing_div2.append(h12);
-}
+}*/

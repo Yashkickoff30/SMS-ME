@@ -85,7 +85,7 @@ exports.postAddDeviceForm = async (req, res) => {
         console.log(
             `${savedDevice.devicename} with spoke id ${savedDevice.spokeid} has been saved!`
         );
-        return res.status(201).send({ msg: "Created!" });
+        return res.redirect("/dashboard");
     } catch (err) {
         console.log("Error: " + err);
     }
