@@ -51,7 +51,7 @@ exports.addDeviceState = async (req, res) => {
         }
     } else {
         let randId = Math.floor(Math.random() * 1000000);
-        let idle;
+        let idle = false;
         let { savedVolt, savedAmpere } = await findThreshold(
             req.body.spokeid,
             req.body.hubid
