@@ -282,7 +282,7 @@ function barChart() {
         labels: labels,
         datasets: [
             {
-                label: "Active Time (in Minutes)",
+                label: "Time",
                 data: finalArr,
                 backgroundColor: "rgba(32,178,170,0.7)",
                 borderWidth: 1,
