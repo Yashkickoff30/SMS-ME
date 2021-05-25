@@ -19,18 +19,18 @@ const findThreshold = async (spokeId, hubId) => {
 exports.addDeviceState = async (req, res) => {
     if (req.body.state == 1) {
         let idle = false;
-        // let { savedVolt, savedAmpere } = await findThreshold(
-        //     req.body.spokeid,
-        //     req.body.hubid
-        // );
-        // savedVolt = parseFloat(savedVolt);
-        // savedAmpere = parseFloat(savedAmpere);
-        // let rcvdVolt = parseFloat(req.body.volt);
-        // let rcvdAmpere = parseFloat(req.body.ampere);
-        // if (rcvdVolt < savedVolt && rcvdAmpere < savedAmpere) {
-        //     idle = true;
-        //     console.log("Currently Device is Idle!");
-        // }
+        let { savedVolt, savedAmpere } = await findThreshold(
+            req.body.spokeid,
+            req.body.hubid
+        );
+        savedVolt = parseFloat(savedVolt);
+        savedAmpere = parseFloat(savedAmpere);
+        let rcvdVolt = parseFloat(req.body.volt);
+        let rcvdAmpere = parseFloat(req.body.ampere);
+        if (rcvdVolt < savedVolt && rcvdAmpere < savedAmpere) {
+            idle = true;
+            console.log("Currently Device is Idle!");
+        }
         const deviceState = new State({
             id: req.body.id,
             spokeid: req.body.spokeid,
@@ -51,22 +51,22 @@ exports.addDeviceState = async (req, res) => {
         }
     } else {
         let randId = Math.floor(Math.random() * 1000000);
-        let idle = false;
-        let { savedVolt, savedAmpere } = await findThreshold(
-            req.body.spokeid,
-            req.body.hubid
-        );
-        savedVolt = parseFloat(savedVolt);
-        savedAmpere = parseFloat(savedAmpere);
-        let rcvdVolt = parseFloat(req.body.volt);
-        let rcvdAmpere = parseFloat(req.body.ampere);
-        if (rcvdVolt < savedVolt && rcvdAmpere < savedAmpere) {
-            idle = true;
-            console.log("Currently Device is Idle!");
-        }
+        //let idle = false;
+        //let { savedVolt, savedAmpere } = await findThreshold(
+          //  req.body.spokeid,
+           // req.body.hubid
+        //);
+        //savedVolt = parseFloat(savedVolt);
+        //savedAmpere = parseFloat(savedAmpere);
+        //let rcvdVolt = parseFloat(req.body.volt);
+        //let rcvdAmpere = parseFloat(req.body.ampere);
+        //if (rcvdVolt < savedVolt && rcvdAmpere < savedAmpere) {
+          //  idle = true;
+           // console.log("Currently Device is Idle!");
+        //}
         State.updateOne(
             { id: req.body.id },
-            { $set: { id: randId, offtime: req.body.time, isIdle: idle } },
+            { $set: { id: randId, offtime: req.body.time } },
             (err) => {
                 if (err) return res.status(400).send({ err: err });
                 console.log("[Off Time Success]");
