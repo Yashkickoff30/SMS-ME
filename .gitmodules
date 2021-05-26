@@ -1,0 +1,3 @@
+[submodule "FlutterMobileApp"]
+	path = FlutterMobileApp
+	url = https://github.com/sanjayramR/SMSME.git
